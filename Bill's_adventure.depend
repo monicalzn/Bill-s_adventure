@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1427740800 source:c:\users\mónica\documents\itc\8vo\graficas\bill's_adventure\main.cpp
+	<GLUT/glut.h>
+	<windows.h>
+	<GL/glut.h>
+	<stdlib.h>
+
+1421262040 c:\program files (x86)\codeblocks\mingw\glut\include\gl\glut.h
+	<windows.h>
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
