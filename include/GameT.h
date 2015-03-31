@@ -9,10 +9,12 @@ class GameT
         GameT();
         GameT(int w, int h);
         void draw();
-        bool checkHit(char pos);
+        bool checkHit(char pos, char playerColor);
+        void wReshape(int w, int h);
+        void changeLevel(int l);
 
     private:
-        Target game[10] =  {Target(600,480), Target(600,480), Target(600,480), Target(600,480), Target(600,480)};
+        Target game[10] =  {Target(600,480,1), Target(600,480,1), Target(600,480,1), Target(600,480,1), Target(600,480,1)};
 
 };
 
@@ -27,15 +29,26 @@ void GameT::draw(){
     }
 }
 
-bool GameT::checkHit(char pos){
+bool GameT::checkHit(char pos, char playerColor){
 /* Checks all the targets in the game to see if the user hit any of them, in case it did it returns true, otherwise it
 * returns false. Still missing: color. */
     for(int i = 0; i < 5; i++){
-        if(game[i].hit(pos)){
+        if(game[i].hit(pos, playerColor)){
             return true;
         }
     }
     return false;
 }
 
+void GameT::wReshape(int w, int h){
+    for(int i = 0; i < 5; i++){
+        game[i].setWindow(w, h);
+    }
+}
+
+void GameT::changeLevel(int l){
+    for(int i = 0; i < 5; i++){
+        game[i].setLevel(l);
+    }
+}
 #endif // GAMET_H_INCLUDED

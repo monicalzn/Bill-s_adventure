@@ -23,12 +23,16 @@ class Target
 {
     public:
         Target();
-        Target(int w, int h);
+        Target(int w, int h, int l);
         void drawTarget();
         void reset();
         void moveT();
         void checkPos();
-        bool hit(char po);
+        bool hit(char po, char playerColor);
+        void setPosition();
+        void setColor();
+        void setWindow(int w, int h);
+        void setLevel(int l);
 
     private:
         char position;
@@ -39,6 +43,7 @@ class Target
         int z;
         char color;
         int level;
+        char colors[4] = {'b', 'r', 'g'};
 
 };
 
@@ -49,116 +54,51 @@ Target:: Target(){
 * number between 1 and 5. Using a random the value for the color is defined. The default values for the width and height
 * are the default values for the window. The starting value for z is a random number between -30 and -50. Once the
 * position is defined and the values for wdh, hgt and z, we must call the draw method. */
-    z = (rand() % 50 + 30) * -1;
+    level = 1;
+    setColor();
     //color
     width = wdh = 480;
     height = hgt = 600;
-    int po;
-    po = rand() % 5 + 1;
-    if(po == 1){
-        // left
-        position = 'l';
-        wdh *= -1;
-        hgt = (hgt/4) * -1;
-    } else if(po == 2){
-        //left corner
-        position = 's';
-        wdh *= -1;
-        hgt /= 2;
-    } else if(po == 3){
-        //center
-        position = 'c';
-        wdh = 0;
-        hgt /= 2;
-    } else if(po == 4){
-        // right corner
-        position = 'o';
-        hgt /= 2;
-    } else {
-        // right
-        position = 'r';
-        hgt = (hgt/4) * -1;
-    }
-    drawTarget();
+    setPosition();
 }
 
-Target:: Target(int w, int h){
+Target:: Target(int w, int h, int l){
 /*when you create a new target it randomly decides
 * its position and color. According to the position they are in the width and the height values
 * will be adapted and stored in wdh and hgt (they become the draw's x and y, respectively. The position is chosen by a random
 * number between 1 and 5. Using a random the value for the color is defined. The default values for the width and height
 * are the default values for the window. The starting value for z is a random number. Once the
 * position is defined and the values for wdh, hgt and z, we must call the draw method. */
-    z = (rand() % 50 + 30) * -1;
+     level = l;
+    setColor();
     //color
     width = wdh = w;
     height = hgt =h;
-    int po;
-    po = rand() % 5 + 1;
-    if(po == 1){
-        //left
-        position = 'l';
-        wdh *= -1;
-        hgt = (hgt/4) * -1;
-    } else if(po == 2){
-        //left corner
-        position = 's';
-        wdh *= -1;
-        hgt /= 2;
-    } else if(po == 3){
-        //center
-        position = 'c';
-        wdh = 0;
-        hgt /= 2;
-    } else if(po == 4){
-        //right corner
-        position = 'o';
-        hgt /= 2;
-    } else {
-        //right
-        position = 'r';
-        hgt = (hgt/4) * -1;
-    }
-    drawTarget();
+    setPosition();
 }
 
 void Target::drawTarget(){
 /* function that draws the target, right now it only draws a point in representation. */
     glBegin(GL_POINTS);
+        if(color == 'b'){
+            glColor3ub(35, 100, 245);
+        } else if(color == 'r'){
+            glColor3ub(245, 100, 35);
+        } else {
+            glColor3ub(10, 200, 35);
+        }
         glVertex3d(wdh,hgt,z);
-
     glEnd();
 }
 
 void Target::reset(){
 /* This function reset the position of the target to a new one. According to the values of width
 * and height, it makes the proper adjustments. It also gives it a new color depending on the current level. */
-    z = (rand() % 50 + 30) * -1;
     wdh = width;
     //color
     hgt = height;
-    int po;
-    po = rand() % 5 + 1;
-    if(po == 1){
-        position = 'l';
-        wdh *= -1;
-        hgt = (hgt/4) * -1;
-    } else if(po == 2){
-        position = 's';
-        wdh *= -1;
-        hgt /= 2;
-    } else if(po == 3){
-        position = 'c';
-        wdh = 0;
-        hgt /= 2;
-    } else if(po == 4){
-        position = 'o';
-        hgt /= 2;
-    } else {
-        position = 'r';
-        hgt = (hgt/4) * -1;
-    }
-    drawTarget();
+    setColor();
+    setPosition();
 }
 
 void Target::checkPos(){
@@ -173,12 +113,13 @@ void Target::moveT(){
     z+=1;
     drawTarget();
     checkPos();
+
 }
 
-bool Target::hit(char po){
+bool Target::hit(char po, char playerColor){
 /* Checks if the user hit the target, it does if they are in the same position and if the target is at least
 * on a positive z. Check if they are the same color is still missing.*/
-    if(po == position){
+    if(po == position && playerColor == color){
         if(z >= 0 ){
             return true;
         }
@@ -186,5 +127,52 @@ bool Target::hit(char po){
     return false;
 }
 
+ void Target::setPosition(){
+     z = (rand() % 50 + 20) * -1;
+     int po;
+    po = rand() % 5 + 1;
+    if(po == 1){
+        position = 'l';
+        wdh *= -1;
+        hgt = (hgt/4) * -1;
+    } else if(po == 2){
+        position = 's';
+        wdh *= -1;
+        hgt /= 2;
+    } else if(po == 3){
+        position = 'c';
+        wdh = 0;
+        hgt /= 2;
+    } else if(po == 4){
+        position = 'o';
+        hgt /= 2;
+    } else {
+        position = 'r';
+        hgt = (hgt/4) * -1;
+    }
+    drawTarget();
+ }
 
+void Target::setColor(){
+/* According to the current level, it assigns a color. */
+    int rndC;
+    if(level == 1){
+         rndC = rand() % 2 ;
+         color = colors[rndC];
+    } else {
+        rndC = rand() % 3;
+         color = colors[rndC];
+    }
+}
+
+void Target::setWindow(int w, int h){
+/* When the user reshapes the window. */
+    width = w;
+    height = h;
+}
+
+void Target::setLevel(int l){
+/* Changes the current level. */
+    level = l;
+}
 #endif // TARGET_H

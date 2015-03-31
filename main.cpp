@@ -6,14 +6,16 @@
 #include <GL/glut.h>
 #endif
 #include "GameT.h"
+#include "Player.h"
 
 int opcion = 2;
 double y=1, x2=1, y2=1;
 double z=-10;
 float x=0;
-float angulo=0;
 double width, height;
 GameT game;
+Player player;
+char color;
 #include <iostream>
 using namespace std;
 
@@ -31,6 +33,13 @@ void display(void){
     glColor3ub(255,135,100);
     glPointSize(10.0f);
     glBegin(GL_POINTS);
+        if(color == 'b'){
+            glColor3ub(35, 100, 245);
+        } else if(color == 'r'){
+            glColor3ub(245, 100, 35);
+        } else {
+            glColor3ub(10, 200, 35);
+        }
         glVertex3d(0,0,0);
         //left corner
         glVertex3d(-600, height/2, 0);
@@ -67,6 +76,7 @@ void reshape (int w, int h)
 {
     width = w;
     height = h;
+    game.wReshape(w, h);
     glViewport (0, 0, (GLsizei) w, (GLsizei) h);
 
     glMatrixMode (GL_PROJECTION);
@@ -90,14 +100,25 @@ void clic(int button, int state, int x, int y)
 void key_Stroke(unsigned char key, int xs, int ys)
 {
     switch(key){
+        case 'i':
+            player = Player();
+            color = player.getColor();
+            break;
+
         case 'l':
         case 's':
         case 'c':
         case 'o':
         case 'r':
-            if(game.checkHit(key)){
+            if(game.checkHit(key, player.getColor())){
                 cout << "HIIIT" << endl;
             }
+            break;
+
+        case 'j':
+        /* Only way the player can change color is by jumping */
+            player.changeColor();
+            color = player.getColor();
             break;
 
         case 'q':
