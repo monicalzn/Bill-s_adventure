@@ -76,8 +76,8 @@ void reshape (int w, int h)
     glMatrixMode (GL_MODELVIEW);
     glLoadIdentity();
     //alejamos la camara
-    glFrustum(-w, w, -h, h/2,4,200);
-
+    /*Frustum top part is smaller to have the center higher */
+    glFrustum(-w, w, -h, h/2,4,70);
     gluLookAt(0, 0, 5, 0, 0, 0, 0, 1, 0);
 
 
@@ -98,12 +98,14 @@ void key_Stroke(unsigned char key, int xs, int ys)
             if(game.checkHit(key)){
                 cout << "HIIIT" << endl;
             }
-    }
+            break;
 
-        if (key == 'q' || key =='Q')
-        {
-            exit(0);  //#include <stdlib.h>
-        }
+        case 'q':
+        case 'Q':
+        case 27:
+            exit(0);
+            break;
+    }
 
 }
 int main(int argc, char** argv)
