@@ -10,6 +10,11 @@ points
 credits
 lights
 background color/design 
+game over 
+materiales
+texturas (2d)
+menu pause, restart
+sound, music 
 
 Done
 create targets

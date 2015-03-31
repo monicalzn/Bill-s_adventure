@@ -26,7 +26,8 @@ class Target
         Target(int w, int h, int l);
         void drawTarget();
         void reset();
-        void moveT();
+        void moveL1();
+        void moveL3();
         void checkPos();
         bool hit(char po, char playerColor);
         void setPosition();
@@ -111,11 +112,22 @@ void Target::checkPos(){
     }
 }
 
-void Target::moveT(){
+void Target::moveL1(){
 /* Moves the object forward, draws it and then checks if it needs to be reseted.*/
     z+=1;
 
-     cout << z << " " ;
+    glPushMatrix();
+    glTranslated(0,0,z);
+    drawTarget();
+    checkPos();
+    glPopMatrix();
+
+}
+
+void Target::moveL3(){
+/* Moves the object forward, draws it and then checks if it needs to be reseted.*/
+    z+=2;
+
     glPushMatrix();
     glTranslated(0,0,z);
     drawTarget();
@@ -136,7 +148,7 @@ bool Target::hit(char po, char playerColor){
 }
 
  void Target::setPosition(){
-     zI = (rand() % 20) * -1;
+     zI = (rand() % 10 + 10) * -1;
      z = zI;
      int po;
     po = rand() % 5 + 1;

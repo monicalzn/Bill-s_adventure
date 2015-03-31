@@ -8,7 +8,7 @@
 #include "GameT.h"
 #include "Player.h"
 
-int opcion = 2;
+int level = 1;
 double y=1, x2=1, y2=1;
 double z=-10;
 float x=0;

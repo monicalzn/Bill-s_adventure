@@ -15,17 +15,24 @@ class GameT
 
     private:
         Target game[10] =  {Target(600,480,1), Target(600,480,1), Target(600,480,1), Target(600,480,1), Target(600,480,1)};
+        int level;
 
 };
 
 GameT::GameT(){
-
+    level = 1;
 }
 
 void GameT::draw(){
 /* Moves all the targets in the game.*/
-    for(int i = 0; i < 1; i++){
-        game[i].moveT();
+    if(level == 1 || level == 2){
+        for(int i = 0; i < 1; i++){
+            game[i].moveL1();
+        }
+    } else if(level == 3){
+        for(int i = 0; i < 1; i++){
+            game[i].moveL3();
+        }
     }
 }
 
@@ -47,6 +54,7 @@ void GameT::wReshape(int w, int h){
 }
 
 void GameT::changeLevel(int l){
+    level = l;
     for(int i = 0; i < 5; i++){
         game[i].setLevel(l);
     }
