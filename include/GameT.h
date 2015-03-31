@@ -24,7 +24,7 @@ GameT::GameT(){
 
 void GameT::draw(){
 /* Moves all the targets in the game.*/
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < 1; i++){
         game[i].moveT();
     }
 }
@@ -32,7 +32,7 @@ void GameT::draw(){
 bool GameT::checkHit(char pos, char playerColor){
 /* Checks all the targets in the game to see if the user hit any of them, in case it did it returns true, otherwise it
 * returns false. Still missing: color. */
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < 1; i++){
         if(game[i].hit(pos, playerColor)){
             return true;
         }

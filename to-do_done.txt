@@ -1,0 +1,22 @@
+To-Do
+2D targets (rgb)
+points
+menu
+3D model
+menu design
+special caracteristic for last level
+lives
+points
+credits
+lights
+background color/design 
+
+Done
+create targets
+random position, five positions and z-wise
+moving targets
+registered moves
+colision, position and corresponding color
+player color
+player change color (by jump)
+

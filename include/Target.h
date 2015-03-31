@@ -40,7 +40,8 @@ class Target
         int height;
         int wdh;
         int hgt;
-        int z;
+        double zI;
+        double z;
         char color;
         int level;
         char colors[4] = {'b', 'r', 'g'};
@@ -60,6 +61,7 @@ Target:: Target(){
     width = wdh = 480;
     height = hgt = 600;
     setPosition();
+    drawTarget();
 }
 
 Target:: Target(int w, int h, int l){
@@ -75,6 +77,7 @@ Target:: Target(int w, int h, int l){
     width = wdh = w;
     height = hgt =h;
     setPosition();
+    drawTarget();
 }
 
 void Target::drawTarget(){
@@ -87,7 +90,7 @@ void Target::drawTarget(){
         } else {
             glColor3ub(10, 200, 35);
         }
-        glVertex3d(wdh,hgt,z);
+        glVertex3d(wdh,hgt,zI);
     glEnd();
 }
 
@@ -103,7 +106,7 @@ void Target::reset(){
 
 void Target::checkPos(){
 /* Checks the position of the target, if its past the camera it's values must be reseted. */
-    if(z > 5){
+    if(z > 20){
         reset();
     }
 }
@@ -111,8 +114,13 @@ void Target::checkPos(){
 void Target::moveT(){
 /* Moves the object forward, draws it and then checks if it needs to be reseted.*/
     z+=1;
+
+     cout << z << " " ;
+    glPushMatrix();
+    glTranslated(0,0,z);
     drawTarget();
     checkPos();
+    glPopMatrix();
 
 }
 
@@ -120,7 +128,7 @@ bool Target::hit(char po, char playerColor){
 /* Checks if the user hit the target, it does if they are in the same position and if the target is at least
 * on a positive z. Check if they are the same color is still missing.*/
     if(po == position && playerColor == color){
-        if(z >= 0 ){
+        if(z >= 5 ){
             return true;
         }
     }
@@ -128,7 +136,8 @@ bool Target::hit(char po, char playerColor){
 }
 
  void Target::setPosition(){
-     z = (rand() % 50 + 20) * -1;
+     zI = (rand() % 20) * -1;
+     z = zI;
      int po;
     po = rand() % 5 + 1;
     if(po == 1){
@@ -150,7 +159,6 @@ bool Target::hit(char po, char playerColor){
         position = 'r';
         hgt = (hgt/4) * -1;
     }
-    drawTarget();
  }
 
 void Target::setColor(){
