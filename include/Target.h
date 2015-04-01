@@ -47,7 +47,7 @@ class Target
         char color;
         int level;
         bool rubbish;
-        char colors[4] = {'b', 'r', 'g', 'p'};
+        char colors[4] = {'b', 'r', 'g'};
 
 };
 
@@ -86,12 +86,7 @@ Target:: Target(int w, int h, int l){
 }
 
 Target:: Target(int w, int h, int l, bool ru){
-/*when you create a new target it randomly decides
-* its position and color. According to the position they are in the width and the height values
-* will be adapted and stored in wdh and hgt (they become the draw's x and y, respectively. The position is chosen by a random
-* number between 1 and 5. Using a random the value for the color is defined. The default values for the width and height
-* are the default values for the window. The starting value for z is a random number. Once the
-* position is defined and the values for wdh, hgt and z, we must call the draw method. */
+/*Constructor for rubbish. */
      level = l;
     setColor();
     //color
@@ -112,7 +107,7 @@ void Target::drawTarget(){
         } else if(color == 'g'){
             glColor3ub(10, 200, 35);
         } else {
-            glColor3ub(110, 200, 135);
+            glColor3ub(110, 200, 135); //rubbish
         }
         glVertex3d(wdh,hgt,zI);
     glEnd();
@@ -148,7 +143,7 @@ void Target::moveL1(){
 }
 
 void Target::moveL3(){
-/* Moves the object forward, draws it and then checks if it needs to be reseted.*/
+/* Moves the object forward faster, draws it and then checks if it needs to be reseted.*/
     z+=2;
 
     glPushMatrix();
@@ -171,6 +166,7 @@ bool Target::hit(char po, char playerColor){
 }
 
  void Target::setPosition(){
+/* Generates a new starting z position for the target, as well as a new position */
      zI = (rand() % 10 + 10) * -1;
      z = zI;
      int po;
@@ -200,7 +196,7 @@ void Target::setColor(){
 /* According to the current level, it assigns a color. */
     int rndC;
     if(rubbish){
-        color = 4;
+        color = 'p'; //rubbish
     } else {
         if(level == 1){
              rndC = rand() % 2 ;

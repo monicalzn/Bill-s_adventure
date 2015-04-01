@@ -21,6 +21,7 @@ class GameT
 };
 
 GameT::GameT(){
+/* Game usually starts on level 1. */
     level = 1;
 }
 
