@@ -24,6 +24,7 @@ class Target
     public:
         Target();
         Target(int w, int h, int l);
+        Target(int w, int h, int l, bool ru);
         void drawTarget();
         void reset();
         void moveL1();
@@ -45,7 +46,8 @@ class Target
         double z;
         char color;
         int level;
-        char colors[4] = {'b', 'r', 'g'};
+        bool rubbish;
+        char colors[4] = {'b', 'r', 'g', 'p'};
 
 };
 
@@ -57,6 +59,7 @@ Target:: Target(){
 * are the default values for the window. The starting value for z is a random number between -30 and -50. Once the
 * position is defined and the values for wdh, hgt and z, we must call the draw method. */
     level = 1;
+    rubbish = false;
     setColor();
     //color
     width = wdh = 480;
@@ -75,6 +78,24 @@ Target:: Target(int w, int h, int l){
      level = l;
     setColor();
     //color
+    rubbish = false;
+    width = wdh = w;
+    height = hgt =h;
+    setPosition();
+    drawTarget();
+}
+
+Target:: Target(int w, int h, int l, bool ru){
+/*when you create a new target it randomly decides
+* its position and color. According to the position they are in the width and the height values
+* will be adapted and stored in wdh and hgt (they become the draw's x and y, respectively. The position is chosen by a random
+* number between 1 and 5. Using a random the value for the color is defined. The default values for the width and height
+* are the default values for the window. The starting value for z is a random number. Once the
+* position is defined and the values for wdh, hgt and z, we must call the draw method. */
+     level = l;
+    setColor();
+    //color
+    rubbish = ru;
     width = wdh = w;
     height = hgt =h;
     setPosition();
@@ -88,8 +109,10 @@ void Target::drawTarget(){
             glColor3ub(35, 100, 245);
         } else if(color == 'r'){
             glColor3ub(245, 100, 35);
-        } else {
+        } else if(color == 'g'){
             glColor3ub(10, 200, 35);
+        } else {
+            glColor3ub(110, 200, 135);
         }
         glVertex3d(wdh,hgt,zI);
     glEnd();
@@ -140,7 +163,7 @@ bool Target::hit(char po, char playerColor){
 /* Checks if the user hit the target, it does if they are in the same position and if the target is at least
 * on a positive z. Check if they are the same color is still missing.*/
     if(po == position && playerColor == color){
-        if(z >= 5 ){
+        if(z >= 18 ){
             return true;
         }
     }
@@ -176,12 +199,16 @@ bool Target::hit(char po, char playerColor){
 void Target::setColor(){
 /* According to the current level, it assigns a color. */
     int rndC;
-    if(level == 1){
-         rndC = rand() % 2 ;
-         color = colors[rndC];
+    if(rubbish){
+        color = 4;
     } else {
-        rndC = rand() % 3;
-         color = colors[rndC];
+        if(level == 1){
+             rndC = rand() % 2 ;
+             color = colors[rndC];
+        } else {
+            rndC = rand() % 3;
+             color = colors[rndC];
+        }
     }
 }
 
@@ -194,5 +221,6 @@ void Target::setWindow(int w, int h){
 void Target::setLevel(int l){
 /* Changes the current level. */
     level = l;
+    setColor();
 }
 #endif // TARGET_H

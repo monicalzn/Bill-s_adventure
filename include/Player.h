@@ -8,6 +8,7 @@ class Player{
         Player();
         void changeColor();
         char getColor();
+        void setLevel(int l);
 
     private:
         char colors[3] = {'b', 'r', 'g'};
@@ -22,6 +23,7 @@ Player::Player(){
 void Player::changeColor(){
 /* Changes to the next color in level 1 checks if we are on the limit, 1, if so return it, same on level 2, with limit
 * 2, and level 3, with limit 3. */
+    cout << level << " " << color;
     if(level == color || (level == 3) && color == 2){
         color = 0;
     } else {
@@ -31,6 +33,10 @@ void Player::changeColor(){
 
 char Player::getColor(){
     return colors[color];
+}
+
+void Player::setLevel(int l){
+    level = l;
 }
 
 #endif // PLAYER_H_INCLUDED

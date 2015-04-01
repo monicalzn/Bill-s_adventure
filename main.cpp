@@ -101,7 +101,10 @@ void key_Stroke(unsigned char key, int xs, int ys)
 {
     switch(key){
         case 'i':
+            game = GameT();
+            //game.changeLevel(3);
             player = Player();
+            //player.setLevel(3);
             color = player.getColor();
             break;
 
