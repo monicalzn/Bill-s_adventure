@@ -169,7 +169,6 @@ bool Target::hit(char po, char playerColor){
      z = zI;
      int po;
     po = rand() % 5 + 1;
-    cout << "Position" << po << " ";
     if(po == 1){
         position = 'l';
         wdh = -1;

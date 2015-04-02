@@ -7,10 +7,7 @@
 #endif
 #include "GameT.h"
 
-int level = 1;
-double y=1, x2=1, y2=1;
-double z=-10;
-float x=0;
+int level = 0;
 double width, height;
 GameT game;
 char color;
@@ -24,54 +21,71 @@ void init(void)
     glEnable(GL_DEPTH_TEST);
 }
 
+void mainMenu(){
+    glColor3ub(255,135,100);
+    glPointSize(40.0f);
+    glBegin(GL_POINTS);
+        glColor3ub(35, 100, 245);
+        glVertex3d(0,0,0);
+
+        glVertex3d(0, .75, 0);
+        glColor3ub(245, 100, 35);
+
+        glColor3ub(10, 200, 35);
+        glVertex3d(0, -0.75, 0);
+
+    glEnd();
+}
 void display(void){
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
+    if(level == 0){
+        mainMenu();
+    } else {
+        glColor3ub(255,135,100);
+        glPointSize(10.0f);
+        glBegin(GL_POINTS);
+            if(color == 'b'){
+                glColor3ub(35, 100, 245);
+            } else if(color == 'r'){
+                glColor3ub(245, 100, 35);
+            } else {
+                glColor3ub(10, 200, 35);
+            }
+            glVertex3d(0,0,0);
+            //left corner
+            glVertex3d(-1, .5, 2);
+            //right corner
+            glColor3ub(255,0,0);
+            glVertex3d(1, .5, 0);
+            //left
+            glColor3ub(0,255,0);
+            glVertex3d(-1,-0.25, 0);
+            //right
+            glColor3ub(0,0,255);
+            glVertex3d(1,-0.25, 0);
+            //center
+            glColor3ub(0,135,0);
+            glVertex3d(0, 0.5, 0);
+        glEnd();
 
-    glColor3ub(255,135,100);
-    glPointSize(10.0f);
-    glBegin(GL_POINTS);
-        if(color == 'b'){
-            glColor3ub(35, 100, 245);
-        } else if(color == 'r'){
-            glColor3ub(245, 100, 35);
-        } else {
-            glColor3ub(10, 200, 35);
-        }
-        glVertex3d(0,0,0);
-        //left corner
-        glVertex3d(-1, .5, 2);
-        //right corner
-        glColor3ub(255,0,0);
-        glVertex3d(1, .5, 0);
-        //left
-        glColor3ub(0,255,0);
-        glVertex3d(-1,-0.25, 0);
-        //right
-        glColor3ub(0,0,255);
-        glVertex3d(1,-0.25, 0);
-        //center
-        glColor3ub(0,135,0);
-        glVertex3d(0, 0.5, 0);
-    glEnd();
+        //Bill's body
+        glPushMatrix();
+        glTranslated(0,-2,0);
+        glColor3ub(110,10,255);
+         glScalef(4,4,4);
+        glutSolidSphere(.45,16,16);
+        glPopMatrix();
 
-    glPushMatrix();
-    glScalef(24,24,24);
-    glTranslated(0,-11,-5);
-    glColor3ub(110,10,255);
-    glutSolidSphere(5.0,16,16);
-    glPopMatrix();
-
-    glColor3ub(255,135,100);
-    glPointSize(10.0f);
-    game.draw();
-
+        glColor3ub(255,135,100);
+        glPointSize(20.0f);
+        game.draw();
+    }
     glutSwapBuffers();
 }
 
 void timer (int v)
 {
-    z += .5;
     glutPostRedisplay();
     glutTimerFunc(100, timer, 1);
 
@@ -97,18 +111,32 @@ void reshape (int w, int h)
 
 }
 
+void startGame(int l){
+    level = l;
+    game = GameT(level);
+    color = game.getColor();
+    glutPostRedisplay();
+}
+
 void clic(int button, int state, int x, int y)
 {
+    y -= (height/2);
+    cout << x << ", " << y << endl;
+    if(y >= -20 && y <= 20 ){ //level two
+        cout << "hola" << endl;
+        startGame(2);
+    } else if(y >= -1*(((height/2)*.10)+50) && y <= -1*(((height/2)*.10)+10)){ //level one
+        cout << "toop" << endl;
+        startGame(1);
+    }else if(y <= (((height/2)*.10)+50) && y >= (((height/2)*.10)+10)){ //level three
+        cout << "gaaah" << endl;
+        startGame(3);
+    }
 }
 
 void key_Stroke(unsigned char key, int xs, int ys)
 {
     switch(key){
-        case 'i':
-            game = GameT();
-            color = game.getColor();
-            break;
-
         case 'l':
         case 's':
         case 'c':

@@ -8,7 +8,7 @@ class GameT
 {
     public:
         GameT();
-        GameT(int w, int h);
+        GameT(int l);
         void draw();
         bool checkHit(char pos);
         void changeLevel(int l);
@@ -27,6 +27,12 @@ GameT::GameT(){
 /* Game usually starts on level 1. */
     level = 1;
     player = Player();
+}
+
+GameT::GameT(int l){
+    level = l;
+    player = Player();
+    changeLevel(l);
 }
 
 void GameT::draw(){
