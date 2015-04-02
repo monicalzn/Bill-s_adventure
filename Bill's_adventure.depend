@@ -1,10 +1,9 @@
 # depslib dependency file v1.0
-1427864369 source:c:\users\mónica\documents\itc\8vo\graficas\bill's_adventure\main.cpp
+1427944659 source:c:\users\mónica\documents\itc\8vo\graficas\bill's_adventure\main.cpp
 	<GLUT/glut.h>
 	<windows.h>
 	<GL/glut.h>
 	"GameT.h"
-	"Player.h"
 	<iostream>
 
 1421262040 c:\program files (x86)\codeblocks\mingw\glut\include\gl\glut.h
@@ -13,17 +12,18 @@
 	<GL/gl.h>
 	<GL/glu.h>
 
-1427866753 c:\users\mónica\documents\itc\8vo\graficas\bill's_adventure\include\target.h
+1427945114 c:\users\mónica\documents\itc\8vo\graficas\bill's_adventure\include\target.h
 	<string.h>
 	<GLUT/glut.h>
 	<windows.h>
 	<GL/glut.h>
 	<iostream>
 
-1427866724 c:\users\mónica\documents\itc\8vo\graficas\bill's_adventure\include\gamet.h
+1427944636 c:\users\mónica\documents\itc\8vo\graficas\bill's_adventure\include\gamet.h
 	"Target.h"
+	"Player.h"
 	<iostream>
 
-1427864196 c:\users\mónica\documents\itc\8vo\graficas\bill's_adventure\include\player.h
+1427936577 c:\users\mónica\documents\itc\8vo\graficas\bill's_adventure\include\player.h
 	<iostream>
 

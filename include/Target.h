@@ -23,8 +23,8 @@ class Target
 {
     public:
         Target();
-        Target(int w, int h, int l);
-        Target(int w, int h, int l, bool ru);
+        Target(int l);
+        Target(int l, bool ru);
         void drawTarget();
         void reset();
         void moveL1();
@@ -33,13 +33,10 @@ class Target
         bool hit(char po, char playerColor);
         void setPosition();
         void setColor();
-        void setWindow(int w, int h);
         void setLevel(int l);
 
     private:
         char position;
-        int width;
-        int height;
         int wdh;
         int hgt;
         double zI;
@@ -62,13 +59,13 @@ Target:: Target(){
     rubbish = false;
     setColor();
     //color
-    width = wdh = 480;
-    height = hgt = 600;
+    wdh = 1;
+    hgt = 1;
     setPosition();
     drawTarget();
 }
 
-Target:: Target(int w, int h, int l){
+Target:: Target(int l){
 /*when you create a new target it randomly decides
 * its position and color. According to the position they are in the width and the height values
 * will be adapted and stored in wdh and hgt (they become the draw's x and y, respectively. The position is chosen by a random
@@ -79,20 +76,20 @@ Target:: Target(int w, int h, int l){
     setColor();
     //color
     rubbish = false;
-    width = wdh = w;
-    height = hgt =h;
+    wdh = 1;
+    hgt = 1;
     setPosition();
     drawTarget();
 }
 
-Target:: Target(int w, int h, int l, bool ru){
+Target:: Target(int l, bool ru){
 /*Constructor for rubbish. */
      level = l;
     setColor();
     //color
     rubbish = ru;
-    width = wdh = w;
-    height = hgt =h;
+    wdh = 1;
+    hgt = 1;
     setPosition();
     drawTarget();
 }
@@ -107,6 +104,7 @@ void Target::drawTarget(){
         } else if(color == 'g'){
             glColor3ub(10, 200, 35);
         } else {
+            cout << color << " ";
             glColor3ub(110, 200, 135); //rubbish
         }
         glVertex3d(wdh,hgt,zI);
@@ -116,24 +114,23 @@ void Target::drawTarget(){
 void Target::reset(){
 /* This function reset the position of the target to a new one. According to the values of width
 * and height, it makes the proper adjustments. It also gives it a new color depending on the current level. */
-    wdh = width;
+    wdh = 1;
     //color
-    hgt = height;
+    hgt = 1;
     setColor();
     setPosition();
 }
 
 void Target::checkPos(){
 /* Checks the position of the target, if its past the camera it's values must be reseted. */
-    if(z > 20){
+    if(z > 10){
         reset();
     }
 }
 
 void Target::moveL1(){
 /* Moves the object forward, draws it and then checks if it needs to be reseted.*/
-    z+=1;
-
+    z+=.5;
     glPushMatrix();
     glTranslated(0,0,z);
     drawTarget();
@@ -158,7 +155,7 @@ bool Target::hit(char po, char playerColor){
 /* Checks if the user hit the target, it does if they are in the same position and if the target is at least
 * on a positive z. Check if they are the same color is still missing.*/
     if(po == position && playerColor == color){
-        if(z >= 18 ){
+        if(z >= 9 ){
             return true;
         }
     }
@@ -167,28 +164,27 @@ bool Target::hit(char po, char playerColor){
 
  void Target::setPosition(){
 /* Generates a new starting z position for the target, as well as a new position */
-     zI = (rand() % 10 + 10) * -1;
+
+     zI = (rand() % 5 + 5 ) * -1;
      z = zI;
      int po;
     po = rand() % 5 + 1;
+    cout << "Position" << po << " ";
     if(po == 1){
         position = 'l';
-        wdh *= -1;
-        hgt = (hgt/4) * -1;
+        wdh = -1;
+        hgt = -0.25;
     } else if(po == 2){
         position = 's';
-        wdh *= -1;
-        hgt /= 2;
+        wdh = -1;
     } else if(po == 3){
         position = 'c';
         wdh = 0;
-        hgt /= 2;
     } else if(po == 4){
         position = 'o';
-        hgt /= 2;
     } else {
         position = 'r';
-        hgt = (hgt/4) * -1;
+        hgt = -0.25;
     }
  }
 
@@ -196,6 +192,7 @@ void Target::setColor(){
 /* According to the current level, it assigns a color. */
     int rndC;
     if(rubbish){
+            cout << "rubbish" << endl;
         color = 'p'; //rubbish
     } else {
         if(level == 1){
@@ -206,12 +203,6 @@ void Target::setColor(){
              color = colors[rndC];
         }
     }
-}
-
-void Target::setWindow(int w, int h){
-/* When the user reshapes the window. */
-    width = w;
-    height = h;
 }
 
 void Target::setLevel(int l){
