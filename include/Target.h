@@ -109,6 +109,11 @@ void Target::drawTarget(){
         }
         glVertex3d(wdh,hgt,zI);
     glEnd();
+    glPushMatrix();
+        glTranslated(wdh,hgt,0);
+         glScalef(1,1,.01);
+        glutSolidSphere(.45,16,16);
+        glPopMatrix();
 }
 
 void Target::reset(){
